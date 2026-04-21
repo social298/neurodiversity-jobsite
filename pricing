@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing | Neurodiversity Jobsite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1F3A;
+    --teal: #0D6E6E;
+    --teal-light: #12918F;
+    --amber: #E8A838;
+    --amber-light: #F5C96A;
+    --cream: #FAF7F2;
+    --white: #FFFFFF;
+    --grey: #6B7280;
+    --border: #E5E7EB;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(11,31,58,0.97);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--amber); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta { background: var(--amber); color: var(--navy); font-weight: 600; font-size: 0.9rem; padding: 0.6rem 1.5rem; border-radius: 4px; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--amber-light); }
+
+  /* HERO */
+  .pricing-hero {
+    background: var(--navy);
+    padding: 10rem 4rem 6rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-hero::before {
+    content: '';
+    position: absolute; top: -300px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(13,110,110,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pricing-hero::after {
+    content: '';
+    position: absolute; bottom: -100px; right: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,168,56,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(13,110,110,0.25); border: 1px solid rgba(13,145,143,0.4);
+    color: var(--teal-light); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 1.2rem; border-radius: 100px; margin-bottom: 1.5rem;
+  }
+  .pricing-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--white); line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 1.2rem;
+  }
+  .pricing-hero h1 em { font-style: normal; color: var(--amber); }
+  .pricing-hero p {
+    font-size: 1.1rem; color: rgba(255,255,255,0.6);
+    max-width: 540px; margin: 0 auto 2.5rem;
+    line-height: 1.7; font-weight: 300;
+  }
+
+  /* TOGGLE */
+  .billing-toggle {
+    display: inline-flex; align-items: center; gap: 1rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px; padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .billing-toggle span { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+  .save-badge {
+    background: var(--amber); color: var(--navy);
+    font-size: 0.72rem; font-weight: 700;
+    padding: 0.25rem 0.7rem; border-radius: 100px;
+  }
+
+  /* PRICING CARDS */
+  .pricing-section { padding: 5rem 4rem; background: var(--cream); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(11,31,58,0.12);
+    border-color: var(--teal-light);
+  }
+
+  .pricing-card.featured {
+    background: var(--navy);
+    border-color: var(--teal);
+    transform: scale(1.04);
+    box-shadow: 0 24px 60px rgba(11,31,58,0.25);
+  }
+
+  .pricing-card.featured:hover {
+    transform: scale(1.04) translateY(-6px);
+  }
+
+  .popular-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--amber); color: var(--navy);
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.35rem 1.2rem; border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .card-tier {
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--teal); margin-bottom: 0.6rem;
+  }
+
+  .featured .card-tier { color: var(--amber); }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--navy);
+    margin-bottom: 0.5rem; line-height: 1.2;
+  }
+
+  .featured .card-name { color: var(--white); }
+
+  .card-desc {
+    font-size: 0.88rem; color: var(--grey);
+    line-height: 1.6; margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .featured .card-desc { color: rgba(255,255,255,0.6); }
+
+  .card-price {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .featured .card-price { border-bottom-color: rgba(255,255,255,0.1); }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; color: var(--navy);
+    line-height: 1; letter-spacing: -0.02em;
+  }
+
+  .featured .price-amount { color: var(--amber); }
+
+  .price-currency {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; vertical-align: super;
+    color: var(--grey);
+  }
+
+  .featured .price-currency { color: rgba(232,168,56,0.7); }
+
+  .price-period {
+    font-size: 0.85rem; color: var(--grey); margin-top: 0.3rem;
+  }
+
+  .featured .price-period { color: rgba(255,255,255,0.5); }
+
+  .price-note {
+    font-size: 0.78rem; color: var(--teal);
+    font-weight: 500; margin-top: 0.3rem;
+  }
+
+  .featured .price-note { color: var(--amber-light); }
+
+  /* FEATURES */
+  .card-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .card-features li {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    font-size: 0.9rem; color: var(--navy); line-height: 1.4;
+  }
+
+  .featured .card-features li { color: rgba(255,255,255,0.85); }
+
+  .feat-check {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: rgba(13,110,110,0.12);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    font-size: 0.65rem; color: var(--teal);
+  }
+
+  .featured .feat-check {
+    background: rgba(232,168,56,0.2);
+    color: var(--amber);
+  }
+
+  .card-cta {
+    display: block; width: 100%; text-align: center;
+    padding: 0.9rem; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; transition: all 0.2s;
+    cursor: pointer; border: none;
+  }
+
+  .cta-outline {
+    background: transparent;
+    border: 2px solid var(--teal);
+    color: var(--teal);
+  }
+
+  .cta-outline:hover {
+    background: var(--teal);
+    color: var(--white);
+  }
+
+  .cta-filled {
+    background: var(--amber);
+    color: var(--navy);
+    border: 2px solid var(--amber);
+  }
+
+  .cta-filled:hover {
+    background: var(--amber-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232,168,56,0.35);
+  }
+
+  .cta-navy {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: var(--white);
+  }
+
+  .cta-navy:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  /* ENTERPRISE STRIP */
+  .enterprise {
+    background: var(--navy);
+    padding: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .enterprise-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .enterprise-left p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.95rem; max-width: 500px;
+    line-height: 1.6; font-weight: 300;
+  }
+
+  .enterprise-right { flex-shrink: 0; }
+
+  .btn-enterprise {
+    display: inline-block;
+    background: var(--amber); color: var(--navy);
+    font-weight: 700; font-size: 1rem;
+    padding: 0.9rem 2.2rem; border-radius: 8px;
+    text-decoration: none; transition: all 0.2s;
+  }
+
+  .btn-enterprise:hover {
+    background: var(--amber-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232,168,56,0.3);
+  }
+
+  /* COMPARISON TABLE */
+  .comparison { padding: 5rem 4rem; background: var(--white); }
+
+  .section-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 3rem; }
+
+  .comp-table { width: 100%; border-collapse: collapse; max-width: 900px; margin: 0 auto; }
+  .comp-table th {
+    font-size: 0.85rem; font-weight: 600;
+    padding: 1rem 1.5rem; text-align: left;
+    border-bottom: 2px solid var(--border);
+    color: var(--grey);
+  }
+  .comp-table th:first-child { width: 40%; }
+  .comp-table td {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem; border-bottom: 1px solid var(--border);
+  }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: var(--cream); }
+  .yes { color: var(--teal); font-weight: 600; }
+  .no { color: #D1D5DB; }
+  .featured-col { background: rgba(13,110,110,0.04); font-weight: 600; }
+
+  /* FAQ */
+  .faq { padding: 5rem 4rem; background: var(--cream); max-width: 800px; margin: 0 auto; }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+    cursor: pointer;
+  }
+
+  .faq-question {
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 1rem; color: var(--navy);
+    user-select: none;
+  }
+
+  .faq-icon { font-size: 1.2rem; color: var(--teal); transition: transform 0.2s; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  .faq-answer {
+    font-size: 0.92rem; color: var(--grey);
+    line-height: 1.7; margin-top: 1rem;
+    display: none; font-weight: 300;
+  }
+
+  .faq-item.open .faq-answer { display: block; }
+
+  /* TRUST */
+  .trust-strip {
+    background: var(--navy);
+    padding: 3rem 4rem;
+    text-align: center;
+  }
+
+  .trust-strip p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem; margin-bottom: 1.5rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .trust-logos {
+    display: flex; justify-content: center;
+    flex-wrap: wrap; gap: 2.5rem; align-items: center;
+  }
+
+  .trust-logo { font-weight: 700; font-size: 0.9rem; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.4);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-logo { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1rem; }
+  .footer-logo span { color: var(--amber); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pricing-card:nth-child(1) { animation-delay: 0s; }
+  .pricing-card:nth-child(2) { animation-delay: 0.1s; }
+  .pricing-card:nth-child(3) { animation-delay: 0.2s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .pricing-hero { padding: 8rem 1.5rem 4rem; }
+    .pricing-section { padding: 3rem 1.5rem; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-card.featured { transform: scale(1); }
+    .comparison, .faq, .enterprise { padding: 3rem 1.5rem; }
+    .enterprise { flex-direction: column; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo">Neurodiversity<span>Jobsite</span></a>
+  <div class="nav-links">
+    <a href="/index.html">Home</a>
+    <a href="/about.html">About Us</a>
+    <a href="/pricing.html" class="active">Pricing</a>
+    <a href="/index.html#register" class="nav-cta">Register Interest</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="pricing-hero">
+  <div class="hero-tag">Transparent Pricing · No Hidden Fees</div>
+  <h1>Simple Pricing.<br><em>Serious Results.</em></h1>
+  <p>From a single inclusive job listing to full governance infrastructure — choose the plan that matches your hiring ambition.</p>
+  <div class="billing-toggle">
+    <span>All prices exclude VAT</span>
+    <span class="save-badge">18 Years of Trust</span>
+  </div>
+</div>
+
+<!-- PRICING CARDS -->
+<section class="pricing-section">
+  <div class="pricing-grid">
+
+    <!-- STARTER -->
+    <div class="pricing-card">
+      <div class="card-tier">Single Listing</div>
+      <div class="card-name">Attraction Evidence</div>
+      <div class="card-desc">Perfect for organisations posting occasional roles who need documented proof of inclusive outreach.</div>
+      <div class="card-price">
+        <div>
+          <span class="price-currency">£</span>
+          <span class="price-amount">650</span>
+        </div>
+        <div class="price-period">per vacancy · 30 day listing</div>
+        <div class="price-note">+ VAT</div>
+      </div>
+      <ul class="card-features">
+        <li><span class="feat-check">✓</span> 30-day active listing on Neurodiversity Jobsite</li>
+        <li><span class="feat-check">✓</span> Logo branding on your advert</li>
+        <li><span class="feat-check">✓</span> Inclusive language review before publication</li>
+        <li><span class="feat-check">✓</span> Daily job alerts to matched candidates</li>
+        <li><span class="feat-check">✓</span> Easy Read accessible format</li>
+        <li><span class="feat-check">✓</span> Performance data: reach, views & clicks</li>
+        <li><span class="feat-check">✓</span> Date-stamped pre-shortlist attraction summary</li>
+      </ul>
+      <a href="/index.html#register" class="card-cta cta-outline">Get Started →</a>
+    </div>
+
+    <!-- NETWORK — FEATURED -->
+    <div class="pricing-card featured">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="card-tier">Network Package</div>
+      <div class="card-name">9-Board Distribution</div>
+      <div class="card-desc">Maximum reach across every specialist diversity board in one campaign. The choice of serious inclusive employers.</div>
+      <div class="card-price">
+        <div>
+          <span class="price-currency">£</span>
+          <span class="price-amount">1,425</span>
+        </div>
+        <div class="price-period">per vacancy · 30 day listing</div>
+        <div class="price-note">+ VAT · Live within 1 hour</div>
+      </div>
+      <ul class="card-features">
+        <li><span class="feat-check">✓</span> Everything in Single Listing</li>
+        <li><span class="feat-check">✓</span> Neurodiversity Jobsite <strong style="color:var(--amber)">NEW</strong></li>
+        <li><span class="feat-check">✓</span> Disability Jobsite & Disability Network</li>
+        <li><span class="feat-check">✓</span> Ethnic Jobsite & Asian Jobsite</li>
+        <li><span class="feat-check">✓</span> Women's Equality & LGBT Equality</li>
+        <li><span class="feat-check">✓</span> Ability Pathway</li>
+        <li><span class="feat-check">✓</span> Top Diversity Employer badge</li>
+        <li><span class="feat-check">✓</span> Board-ready governance documentation</li>
+        <li><span class="feat-check">✓</span> Featured job alerts to all networks</li>
+      </ul>
+      <a href="/index.html#register" class="card-cta cta-filled">Get Started →</a>
+    </div>
+
+    <!-- SUBSCRIPTION -->
+    <div class="pricing-card">
+      <div class="card-tier">Subscription</div>
+      <div class="card-name">Unlimited Package</div>
+      <div class="card-desc">For organisations with ongoing hiring needs who need a complete, scalable inclusive recruitment infrastructure.</div>
+      <div class="card-price">
+        <div>
+          <span class="price-currency">£</span>
+          <span class="price-amount">1,165</span>
+        </div>
+        <div class="price-period">per month · 12 month term</div>
+        <div class="price-note">+ VAT · Flexible plans available</div>
+      </div>
+      <ul class="card-features">
+        <li><span class="feat-check">✓</span> Unlimited active listings across all 9 boards</li>
+        <li><span class="feat-check">✓</span> ATS integration & auto job scraping</li>
+        <li><span class="feat-check">✓</span> Premium banner placement</li>
+        <li><span class="feat-check">✓</span> Inclusive employer profile across all channels</li>
+        <li><span class="feat-check">✓</span> Targeted newsletter to active jobseekers</li>
+        <li><span class="feat-check">✓</span> Priority email & phone support</li>
+        <li><span class="feat-check">✓</span> Dedicated account manager</li>
+        <li><span class="feat-check">✓</span> Full governance evidence suite</li>
+      </ul>
+      <a href="/index.html#register" class="card-cta cta-outline">Book a Call →</a>
+    </div>
+
+  </div>
+
+  <!-- D&I SUPPORT ADD-ON -->
+  <div style="max-width: 1100px; margin: 2rem auto 0; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+    <div>
+      <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 0.3rem;">Add-On</div>
+      <div style="font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.3rem;">Direct D&I Support</div>
+      <div style="font-size: 0.88rem; color: var(--grey);">Direct email & telephone support for HR teams — inclusive hiring advice, advert decisions, and vacancy evidence guidance.</div>
+    </div>
+    <div style="text-align: right; flex-shrink: 0;">
+      <div style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--navy);">£325<span style="font-size: 0.9rem; color: var(--grey); font-family: 'DM Sans', sans-serif;">/year</span></div>
+      <a href="/index.html#register" style="font-size: 0.85rem; color: var(--teal); font-weight: 600; text-decoration: none;">Add to any plan →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE -->
+<div class="enterprise">
+  <div class="enterprise-left">
+    <h2>Need a Custom Solution?</h2>
+    <p>For large organisations, government departments, or recruitment agencies with complex needs — we build bespoke packages including multi-year subscriptions, volume discounts, and white-label solutions.</p>
+  </div>
+  <div class="enterprise-right">
+    <a href="mailto:sales@diversityjobsite.co.uk" class="btn-enterprise">Talk to Our Team →</a>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <div class="section-tag">Feature Comparison</div>
+    <h2 class="section-title">What's Included in Each Plan</h2>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Single</th>
+          <th class="featured-col">Network</th>
+          <th>Unlimited</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Neurodiversity Jobsite listing</td><td class="yes">✓</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>9-board network distribution</td><td class="no">—</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Inclusive language review</td><td class="yes">✓</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Easy Read accessible format</td><td class="yes">✓</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Performance data & reporting</td><td class="yes">✓</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Board-ready governance evidence</td><td class="yes">✓</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Top Diversity Employer badge</td><td class="no">—</td><td class="yes featured-col">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Unlimited listings</td><td class="no">—</td><td class="no featured-col">—</td><td class="yes">✓</td></tr>
+        <tr><td>ATS integration</td><td class="no">—</td><td class="no featured-col">—</td><td class="yes">✓</td></tr>
+        <tr><td>Dedicated account manager</td><td class="no">—</td><td class="no featured-col">—</td><td class="yes">✓</td></tr>
+        <tr><td>Premium banner placement</td><td class="no">—</td><td class="no featured-col">—</td><td class="yes">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding: 5rem 4rem; background: var(--cream);">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Common Questions</h2>
+
+    <div class="faq-item open" onclick="toggleFaq(this)">
+      <div class="faq-question">How quickly will my job go live? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Network Package listings go live within 1 hour of submission. Single listings are reviewed for inclusive language first and typically go live within 1 business day.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">What is the governance evidence report? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">A date-stamped PDF report generated at the close of each listing. It includes reach, views, and click data across all specialist channels, plus a pre-shortlist attraction summary — ready to present to your board or legal team as proof of inclusive hiring activity.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Do you check employers before listing? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Yes. Every employer is reviewed before their first listing. We also review every job advert for language that may deter neurodivergent candidates before it goes live.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Can I upgrade my plan mid-campaign? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">Yes — contact our team at sales@diversityjobsite.co.uk and we'll arrange an upgrade. The difference in cost is applied as a credit.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">Is there a contract for the Unlimited plan? <span class="faq-icon">+</span></div>
+      <div class="faq-answer">The standard Unlimited plan is a 12-month subscription. Flexible monthly options are available — contact us to discuss the best structure for your organisation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust-strip">
+  <p>Trusted by 400+ UK organisations</p>
+  <div class="trust-logos">
+    <span class="trust-logo">NHS</span>
+    <span class="trust-logo">EY</span>
+    <span class="trust-logo">UK PARLIAMENT</span>
+    <span class="trust-logo">HOME OFFICE</span>
+    <span class="trust-logo">FINANCIAL CONDUCT AUTHORITY</span>
+    <span class="trust-logo">BRITISH COUNCIL</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Neurodiversity<span>Jobsite</span></div>
+  <div>Part of the Diversity Jobsite Network · © 2026 All rights reserved</div>
+  <div>sales@diversityjobsite.co.uk · 0330 789 0806</div>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = e.target.classList.contains('featured') ? 'scale(1.04)' : 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.pricing-card').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
